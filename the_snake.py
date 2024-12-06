@@ -23,7 +23,7 @@ BORDER_COLOR = (93, 216, 228)
 APPLE_COLOR = (255, 0, 0)
 SNAKE_COLOR = (0, 255, 0)
 
-SPEED = 10
+SPEED = 20
 
 
 class GameObject:
