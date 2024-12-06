@@ -27,40 +27,40 @@ SPEED = 10
 
 
 class GameObject:
-    """ Базовый класс для всех объектов в игре. """
+    """Базовый класс для всех объектов в игре."""
 
     def __init__(self, position=(0, 0)):
-        """ Инициализация объекта. """
+        """Инициализация объекта."""
         self.position = position
 
     def draw(self, color):
-        """ Отрисовка объекта на экране. """
+        """Отрисовка объекта на экране."""
         rect = pygame.Rect(self.position, (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(screen, color, rect)
         pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
 
 
 class Apple(GameObject):
-    """ Класс для управления яблоком на игровом поле. """
+    """Класс для управления яблоком на игровом поле."""
 
     def __init__(self, position=(0, 0), body_color=(255, 0, 0)):
-        """ Создает яблоко в случайной позиции. """
+        """Создает яблоко в случайной позиции."""
         super().__init__(position)
         self.body_color = body_color
         super().__init__((randint(0, GRID_WIDTH - 1) * GRID_SIZE,
                           randint(0, GRID_HEIGHT - 1) * GRID_SIZE))
 
     def randomize_position(self):
-        """ Перемещает яблоко в новую случайную позицию. """
+        """Перемещает яблоко в новую случайную позицию."""
         self.position = (randint(0, GRID_WIDTH - 1) * GRID_SIZE,
                          randint(0, GRID_HEIGHT - 1) * GRID_SIZE)
 
 
 class Snake(GameObject):
-    """ Класс для управления змейкой. """
+    """Класс для управления змейкой."""
 
     def __init__(self, position=(0, 0), body_color=(0, 255, 0)):
-        """ Создает змейку с начальной длиной 1 и случайным направлением. """
+        """Создает змейку с начальной длиной 1 и случайным направлением."""
         super().__init__(position)
         super().__init__((SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
         self.body_color = body_color
@@ -70,9 +70,10 @@ class Snake(GameObject):
         self.next_direction = None
 
     def move(self):
-        """ Перемещает змейку в текущем направлении.
+        """Перемещает змейку в текущем направлении.
         Если змейка пересекает саму себя,
-        происходит сброс её состояния. """
+        происходит сброс её состояния.
+        """
         head_x, head_y = self.positions[0]
         dir_x, dir_y = self.direction
         new_head = ((head_x + dir_x * GRID_SIZE) % SCREEN_WIDTH,
@@ -86,34 +87,35 @@ class Snake(GameObject):
                 self.positions.pop()
 
     def reset(self):
-        """ Сбрасывает состояние змейки к начальным значениям. """
+        """Сбрасывает состояние змейки к начальным значениям."""
         self.positions = [self.position]
         self.direction = choice([UP, DOWN, LEFT, RIGHT])
         self.length = 1
 
     def grow(self):
-        """ Увеличивает длину змейки на 1 сегмент. """
+        """Увеличивает длину змейки на 1 сегмент."""
         self.length += 1
 
     def update_direction(self):
-        """ Обновляет направление движения змейки на основе ввода пользователя. """
+        """Обновляет направление движения змейки на основе ввода пользователя."""
         if self.next_direction:
             self.direction = self.next_direction
             self.next_direction = None
 
     def draw(self):
-        """ Отрисовывает змейку на игровом поле. """
+        """Отрисовывает змейку на игровом поле."""
         for pos in self.positions:
             rect = pygame.Rect(pos, (GRID_SIZE, GRID_SIZE))
             pygame.draw.rect(screen, SNAKE_COLOR, rect)
             pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
 
     def get_head_position(self):
+        """Получает позицию головы змейки."""
         return self.position
 
 
 def handle_keys(snake):
-    """ Обрабатывает ввод пользователя с клавиатуры. """
+    """Обрабатывает ввод пользователя с клавиатуры."""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -130,7 +132,7 @@ def handle_keys(snake):
 
 
 def main():
-    """ Основная функция для запуска игры. """
+    """Основная функция для запуска игры."""
     pygame.init()
     global screen
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
